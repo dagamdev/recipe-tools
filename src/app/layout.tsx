@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import Header from '@/components/header'
 import { ThemeProvider } from '@/components/theme-provider'
+import { DrawerDialog } from '@/components/drawer-dialog'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -26,7 +27,10 @@ export default function RootLayout ({
           disableTransitionOnChange
         >
           <Header />
-          {children}
+          <main className='p-5 space-y-5 max-w-4xl mx-auto'>
+            {children}
+          </main>
+          <DrawerDialog />
         </ThemeProvider>
       </body>
     </html>
