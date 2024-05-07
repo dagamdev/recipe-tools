@@ -27,7 +27,7 @@ export default function RootLayout ({
           disableTransitionOnChange
         >
           <Header />
-          <main className='p-5 space-y-5 max-w-4xl mx-auto'>
+          <main className='p-5 space-y-10 max-w-4xl mx-auto'>
             {children}
           </main>
           <DrawerDialog />
