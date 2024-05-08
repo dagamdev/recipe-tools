@@ -4,10 +4,10 @@ import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell, TableCap
 import type { Product } from '@/types'
 import { MoreHorizontal, Trash2, EditIcon } from 'lucide-react'
 
-export default function ProductsTable ({ products, caption, editProduct, deleteProduct }: {
+export default function ProductsTable ({ products, caption, editProduct, removeProduct }: {
   products: Product[]
   editProduct: (product: Product) => void
-  deleteProduct: (productId: string) => void
+  removeProduct: (productId: string) => void
   caption?: string
 }) {
   return (
@@ -39,7 +39,7 @@ export default function ProductsTable ({ products, caption, editProduct, deleteP
                 <DropdownMenuItem onClick={() => { editProduct(p) }}>
                   <EditIcon /> Edit
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => { deleteProduct(p.id) }}>
+                <DropdownMenuItem onClick={() => { removeProduct(p.id) }}>
                   <Trash2 /> Delete
                 </DropdownMenuItem>
               </DropdownMenuContent>
