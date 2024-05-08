@@ -41,10 +41,10 @@ export default function RecipeCard ({ recipe }: {
               }
             })
           }}>
-            <EditIcon /> Edit
+            <EditIcon className='size-4 mr-2'/> Edit
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => { removeRecipe(recipe.id) }}>
-            <Trash2 /> Delete
+          <DropdownMenuItem className='text-red-500' onClick={() => { removeRecipe(recipe.id) }}>
+            <Trash2 className='size-4 mr-2'/> Delete
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
