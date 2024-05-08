@@ -86,7 +86,7 @@ export default function RecipePage ({ params }: {
         />
       </section>
 
-      <p>Total cost: <strong>${totalCost}</strong></p>
+      <p>Total cost: <strong>${totalCost.toFixed(2)}</strong></p>
     </>
   )
 }

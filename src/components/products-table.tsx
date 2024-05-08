@@ -26,7 +26,7 @@ export default function ProductsTable ({ products, caption, editProduct, removeP
           <TableCell>{p.name}</TableCell>
           <TableCell>{p.quantity}</TableCell>
           <TableCell>{p.unit}</TableCell>
-          <TableCell>${p.price}</TableCell>
+          <TableCell>${p.price.toFixed(2)}</TableCell>
           <TableCell>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -37,10 +37,10 @@ export default function ProductsTable ({ products, caption, editProduct, removeP
               </DropdownMenuTrigger>
               <DropdownMenuContent align='end'>
                 <DropdownMenuItem onClick={() => { editProduct(p) }}>
-                  <EditIcon /> Edit
+                  <EditIcon className='size-4 mr-2'/> Edit
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => { removeProduct(p.id) }}>
-                  <Trash2 /> Delete
+                <DropdownMenuItem className='text-red-500' onClick={() => { removeProduct(p.id) }}>
+                  <Trash2 className='size-4 mr-2'/> Delete
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
