@@ -6,6 +6,7 @@ import type { RecipeProduct, Units } from '@/types'
 import { Label } from './ui/label'
 import { Input } from './ui/input'
 import { Button } from './ui/button'
+import { useProductsStore } from '@/store/products-store'
 
 export default function DinamicForm ({ type, className, defaultValues }: {
   type: Types
@@ -19,7 +20,14 @@ export default function DinamicForm ({ type, className, defaultValues }: {
       : ''
   )
   const [unitMessage, setUnitMessage] = useState<string>()
+  const [productId, setProductId] = useState<string>(defaultValues === undefined
+    ? ''
+    : 'productId' in defaultValues
+      ? defaultValues.productId
+      : ''
+  )
   const [setOpen, manageValues] = useToolsStore(store => [store.setOpen, store.manageValues])
+  const products = useProductsStore(store => store.products)
 
   const getDefaultValue = (name: string): string | number | undefined => {
     if (defaultValues === undefined) return undefined
@@ -32,20 +40,26 @@ export default function DinamicForm ({ type, className, defaultValues }: {
 
     const formData = new FormData(ev.currentTarget)
     const name = formData.get('name')?.toString() ?? ''
+    const quantity = parseFloat(formData.get('quantity')?.toString() ?? '1')
+    const price = parseFloat(formData.get('price')?.toString() ?? '0')
+
     if (type === 'recipe') {
       manageValues({ name })
-    } else {
+    } else if (type === 'product') {
       if (unit.length === 0) {
         setUnitMessage('Please select a product unit.')
         return
       }
 
-      const quantity = parseFloat(formData.get('quantity')?.toString() ?? '1')
-      const price = parseFloat(formData.get('price')?.toString() ?? '0')
-      console.log({ name, unit, quantity, price })
-
       manageValues({
         name,
+        quantity,
+        unit: unit as Units,
+        price
+      })
+    } else {
+      manageValues({
+        productId,
         quantity,
         unit: unit as Units,
         price
@@ -57,11 +71,25 @@ export default function DinamicForm ({ type, className, defaultValues }: {
 
   return (
     <form onSubmit={handleSubmit} className={cn('grid items-start gap-4', className)}>
-      <Label className="grid gap-2">
+      {type !== 'ingredient' && <Label className="grid gap-2">
         Name
         <Input name='name' defaultValue={getDefaultValue('name')} required />
-      </Label>
-      {type === 'product' && <>
+      </Label>}
+
+      {type === 'ingredient' && <Label className="grid gap-2">
+        Product
+        <Select onValueChange={setProductId} defaultValue={getDefaultValue('productId') as string}>
+          <SelectTrigger className="">
+            <SelectValue placeholder="Unit" />
+          </SelectTrigger>
+          <SelectContent>
+            {products.map(p => <SelectItem key={p.id} value={p.id}>{p.name}</SelectItem>)}
+          </SelectContent>
+        </Select>
+        {unitMessage !== undefined && <span className='text-red-500'>{unitMessage}</span>}
+      </Label>}
+
+      {type !== 'recipe' && <>
           <div className='grid grid-cols-2 gap-4'>
             <Label className="grid gap-2">
               Quantity
@@ -70,7 +98,7 @@ export default function DinamicForm ({ type, className, defaultValues }: {
             <Label className="grid gap-2">
               Unit of measurement
               <Select onValueChange={setUnit} defaultValue={getDefaultValue('unit') as string}>
-                <SelectTrigger className="w-[180px]">
+                <SelectTrigger>
                   <SelectValue placeholder="Unit" />
                 </SelectTrigger>
                 <SelectContent>
@@ -83,12 +111,12 @@ export default function DinamicForm ({ type, className, defaultValues }: {
               {unitMessage !== undefined && <span className='text-red-500'>{unitMessage}</span>}
             </Label>
           </div>
-          <Label className="grid gap-2">
-            Price
-            <Input name='price' type='number' defaultValue={getDefaultValue('price')} required />
-          </Label>
         </>
       }
+      {type === 'product' && <Label className="grid gap-2">
+        Price
+        <Input name='price' type='number' defaultValue={getDefaultValue('price')} required />
+      </Label>}
 
       {<Button type="submit">{defaultValues === undefined ? 'Create new' : 'Save changes'}</Button>}
     </form>
