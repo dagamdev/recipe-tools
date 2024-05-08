@@ -28,6 +28,7 @@ export default function DinamicForm ({ type, className, defaultValues }: {
   )
   const [setOpen, manageValues] = useToolsStore(store => [store.setOpen, store.manageValues])
   const products = useProductsStore(store => store.products)
+  const [priceMessage, setPriceMessage] = useState<string>()
 
   const getDefaultValue = (name: string): string | number | undefined => {
     if (defaultValues === undefined) return undefined
@@ -42,6 +43,11 @@ export default function DinamicForm ({ type, className, defaultValues }: {
     const name = formData.get('name')?.toString() ?? ''
     const quantity = parseFloat(formData.get('quantity')?.toString() ?? '1')
     const price = parseFloat(formData.get('price')?.toString() ?? '0')
+
+    if (isNaN(price)) {
+      setPriceMessage('Price is not a number')
+      return
+    }
 
     if (type === 'recipe') {
       manageValues({ name })
@@ -79,8 +85,8 @@ export default function DinamicForm ({ type, className, defaultValues }: {
       {type === 'ingredient' && <Label className="grid gap-2">
         Product
         <Select onValueChange={setProductId} defaultValue={getDefaultValue('productId') as string}>
-          <SelectTrigger className="">
-            <SelectValue placeholder="Unit" />
+          <SelectTrigger>
+            <SelectValue placeholder="Reference product" />
           </SelectTrigger>
           <SelectContent>
             {products.map(p => <SelectItem key={p.id} value={p.id}>{p.name}</SelectItem>)}
@@ -115,7 +121,8 @@ export default function DinamicForm ({ type, className, defaultValues }: {
       }
       {type === 'product' && <Label className="grid gap-2">
         Price
-        <Input name='price' type='number' defaultValue={getDefaultValue('price')} required />
+        <Input name='price' defaultValue={getDefaultValue('price')} required />
+        {priceMessage !== undefined && <span className='text-red-500'>{priceMessage}</span>}
       </Label>}
 
       {<Button type="submit">{defaultValues === undefined ? 'Create new' : 'Save changes'}</Button>}
