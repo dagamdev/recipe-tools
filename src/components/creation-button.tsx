@@ -9,7 +9,7 @@ export default function CreationButton ({ onClick, elementType }: {
 }) {
   return (
     <Button onClick={onClick}>
-      <PlusIcon className="mr-2"/>
+      <PlusIcon className="sm:mr-2"/>
       <span className="hidden sm:block transition-all">Create new {elementType}</span>
     </Button>
   )
