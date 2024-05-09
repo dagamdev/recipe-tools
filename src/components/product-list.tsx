@@ -27,7 +27,7 @@ export default function ProductList () {
         }} elementType='product' />
       </div>
 
-      <ProductsTable products={products}
+      {products.length > 0 && <ProductsTable products={products}
         editProduct={product => {
           setTools({
             type: 'product',
@@ -42,7 +42,7 @@ export default function ProductList () {
         }}
         removeProduct={id => { removeProduct(id) }}
         caption='A list of reference products for recipe ingredients.'
-      />
+      />}
     </section>
   )
 }
