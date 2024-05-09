@@ -43,7 +43,7 @@ export default function RecipePage ({ params }: {
 
   return (
     <>
-      <h1 className='text-3xl font-bold text-muted-foreground'>{recipe.name}</h1>
+      <h1 className='text-3xl font-bold'>{recipe.name} recipe</h1>
 
       <section className='space-y-4'>
         <div className='flex justify-between'>
@@ -62,7 +62,7 @@ export default function RecipePage ({ params }: {
           }} elementType='ingredient' />
         </div>
 
-        <ProductsTable
+        {ingredients.length > 0 && <ProductsTable
           products={ingredients}
           editProduct={(product) => {
             setTools({
@@ -83,10 +83,10 @@ export default function RecipePage ({ params }: {
           removeProduct={(productId) => {
             removeIngredient(recipe.id, productId)
           }}
-        />
+        />}
       </section>
 
-      <p>Total cost: <strong>${totalCost.toFixed(2)}</strong></p>
+      {ingredients.length > 0 && <p className='text-center text-lg'>Total cost: <strong>${totalCost.toFixed(2)}</strong></p>}
     </>
   )
 }
