@@ -76,7 +76,7 @@ export default function DinamicForm ({ type, className, defaultValues }: {
   }
 
   return (
-    <form onSubmit={handleSubmit} className={cn('grid items-start gap-4', className)}>
+    <form onSubmit={handleSubmit} className={cn('grid items-start gap-4 max-w-lg', className)}>
       {type !== 'ingredient' && <Label className="grid gap-2">
         Name
         <Input name='name' defaultValue={getDefaultValue('name')} required />
