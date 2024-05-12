@@ -4,7 +4,7 @@ import CreationButton from '@/components/creation-button'
 import ProductsTable from '@/components/products-table'
 import { useProductsStore } from '@/store/products-store'
 import { useRecipesStore } from '@/store/recipes-store'
-import { useToolsStore } from '@/store/form-store'
+import { useFormStore } from '@/store/form-store'
 import type { Product } from '@/types'
 import { UNIT_TYPES, UNIT_VALUES } from '@/utils/constants'
 
@@ -22,7 +22,7 @@ export default function RecipePage ({ params }: {
     const price = ((v.quantity * UNIT_VALUES[v.unit]) / (product.quantity * UNIT_VALUES[product.unit])) * product.price
     return [...pv, { ...product, ...v, price }]
   }, []) ?? [])
-  const setTools = useToolsStore(store => store.setTools)
+  const setTools = useFormStore(store => store.setTools)
 
   if (recipe === undefined) return <p>Cargando receta</p>
 
