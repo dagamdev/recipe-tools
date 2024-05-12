@@ -11,7 +11,7 @@ export default function ProductsTable ({ products, caption, editProduct, removeP
   caption?: string
 }) {
   return (
-    <Table>
+    <Table className='border border-border'>
       <TableHeader>
         <TableRow>
           <TableHead>Name</TableHead>
