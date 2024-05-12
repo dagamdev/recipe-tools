@@ -1,24 +1,23 @@
 import { useState } from 'react'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select'
 import { cn } from '@/lib/utils'
-import { useToolsStore, type Types } from '@/store/tools-store'
+import { useFormStore } from '@/store/form-store'
 import type { RecipeProduct, Units } from '@/types'
 import { Label } from './ui/label'
 import { Input } from './ui/input'
 import { Button } from './ui/button'
 import { useProductsStore } from '@/store/products-store'
+import { UNIT_TYPES } from '@/utils/constants'
 
-export default function DinamicForm ({ type, className, defaultValues }: {
-  type: Types
+export default function DinamicForm ({ className }: {
   className?: string
-  defaultValues?: RecipeProduct
 }) {
-  const [unit, setUnit] = useState(defaultValues === undefined
-    ? ''
-    : 'unit' in defaultValues
-      ? defaultValues.unit
-      : ''
-  )
+  const [type, setOpen, defaultValues, manageValues, ingredients] = useFormStore(store => [store.type, store.setOpen, store.defaultValues, store.manageValues, store.ingredients])
+  const [unit, setUnit] = useState(() => {
+    if (defaultValues !== undefined && 'unit' in defaultValues) {
+      return defaultValues.unit
+    }
+  })
   const [unitMessage, setUnitMessage] = useState<string>()
   const [productId, setProductId] = useState<string>(defaultValues === undefined
     ? ''
@@ -26,9 +25,9 @@ export default function DinamicForm ({ type, className, defaultValues }: {
       ? defaultValues.productId
       : ''
   )
-  const [setOpen, manageValues] = useToolsStore(store => [store.setOpen, store.manageValues])
   const products = useProductsStore(store => store.products)
   const [priceMessage, setPriceMessage] = useState<string>()
+  const [unitType, setUnitType] = useState(unit === undefined ? 0 : UNIT_TYPES[unit])
 
   const getDefaultValue = (name: string): string | number | undefined => {
     if (defaultValues === undefined) return undefined
@@ -52,7 +51,7 @@ export default function DinamicForm ({ type, className, defaultValues }: {
     if (type === 'recipe') {
       manageValues({ name })
     } else if (type === 'product') {
-      if (unit.length === 0) {
+      if (unit === undefined) {
         setUnitMessage('Please select a product unit.')
         return
       }
@@ -64,6 +63,11 @@ export default function DinamicForm ({ type, className, defaultValues }: {
         price
       })
     } else {
+      if (unit === undefined) {
+        setUnitMessage('Please select a product unit.')
+        return
+      }
+
       manageValues({
         productId,
         quantity,
@@ -75,6 +79,18 @@ export default function DinamicForm ({ type, className, defaultValues }: {
     setOpen(false)
   }
 
+  const handleSetProduct = (value: string) => {
+    setProductId(value)
+    const product = products.find(p => p.id === value)
+
+    if (product !== undefined) {
+      setUnit(product.unit)
+      setUnitType(UNIT_TYPES[product.unit])
+    }
+  }
+
+  console.log({ unitType, unit })
+
   return (
     <form onSubmit={handleSubmit} className={cn('grid items-start gap-4 max-w-lg', className)}>
       {type !== 'ingredient' && <Label className="grid gap-2">
@@ -82,14 +98,14 @@ export default function DinamicForm ({ type, className, defaultValues }: {
         <Input name='name' defaultValue={getDefaultValue('name')} required />
       </Label>}
 
-      {type === 'ingredient' && <Label className="grid gap-2">
+      {ingredients !== undefined && <Label className="grid gap-2">
         Product
-        <Select onValueChange={setProductId} defaultValue={getDefaultValue('productId') as string}>
+        <Select onValueChange={handleSetProduct} defaultValue={getDefaultValue('productId') as string}>
           <SelectTrigger>
             <SelectValue placeholder="Reference product" />
           </SelectTrigger>
           <SelectContent>
-            {products.map(p => <SelectItem key={p.id} value={p.id}>{p.name}</SelectItem>)}
+            {products.filter(p => !ingredients.some(i => i.id === p.id)).map(p => <SelectItem key={p.id} value={p.id}>{p.name}</SelectItem>)}
           </SelectContent>
         </Select>
         {unitMessage !== undefined && <span className='text-red-500'>{unitMessage}</span>}
@@ -103,15 +119,18 @@ export default function DinamicForm ({ type, className, defaultValues }: {
             </Label>
             <Label className="grid gap-2">
               Unit of measurement
-              <Select onValueChange={setUnit} defaultValue={getDefaultValue('unit') as string}>
+              <Select key={unitType}
+                onValueChange={(v) => { setUnit(v as Units) }}
+                defaultValue={getDefaultValue('unit') as string}
+                value={unit}
+              >
                 <SelectTrigger>
                   <SelectValue placeholder="Unit" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="g" >g</SelectItem>
-                  <SelectItem value="k">k</SelectItem>
-                  <SelectItem value="l">l</SelectItem>
-                  <SelectItem value="ml">ml</SelectItem>
+                  {Object.entries(UNIT_TYPES)
+                    .filter(([unit, type]) => (unitType === 0 ? true : type === unitType))
+                    .map(([unit]) => <SelectItem key={unit} value={unit}>{unit}</SelectItem>)}
                 </SelectContent>
               </Select>
               {unitMessage !== undefined && <span className='text-red-500'>{unitMessage}</span>}
