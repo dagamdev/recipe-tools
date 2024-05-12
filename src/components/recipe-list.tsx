@@ -3,11 +3,11 @@
 import { useRecipesStore } from '@/store/recipes-store'
 import RecipeCard from './recipe'
 import CreationButton from './creation-button'
-import { useToolsStore } from '@/store/tools-store'
+import { useFormStore } from '@/store/form-store'
 
 export default function RecipeList () {
   const [recipes, addRecipe] = useRecipesStore(store => [store.recipes, store.addRecipe])
-  const setTools = useToolsStore(store => store.setTools)
+  const setTools = useFormStore(store => store.setTools)
 
   return (
     <section className='space-y-4'>
@@ -22,7 +22,7 @@ export default function RecipeList () {
                 addRecipe({ ...values, ingredients: [] })
               }
             },
-            formData: undefined
+            defaultValues: undefined
           })
         }} elementType='recipe' />
       </div>
