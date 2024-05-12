@@ -4,22 +4,9 @@ import CreationButton from '@/components/creation-button'
 import ProductsTable from '@/components/products-table'
 import { useProductsStore } from '@/store/products-store'
 import { useRecipesStore } from '@/store/recipes-store'
-import { useToolsStore } from '@/store/tools-store'
+import { useToolsStore } from '@/store/form-store'
 import type { Product } from '@/types'
-
-const unitTypes = {
-  g: 1,
-  k: 1,
-  ml: 2,
-  l: 2
-}
-
-const unitValues = {
-  g: 1,
-  k: 1000,
-  ml: 1,
-  l: 1000
-}
+import { UNIT_TYPES, UNIT_VALUES } from '@/utils/constants'
 
 export default function RecipePage ({ params }: {
   params: { id: string }
@@ -30,9 +17,9 @@ export default function RecipePage ({ params }: {
 
     if (product === undefined) return pv
 
-    if (unitTypes[v.unit] !== unitTypes[product.unit]) return pv
+    if (UNIT_TYPES[v.unit] !== UNIT_TYPES[product.unit]) return pv
 
-    const price = ((v.quantity * unitValues[v.unit]) / (product.quantity * unitValues[product.unit])) * product.price
+    const price = ((v.quantity * UNIT_VALUES[v.unit]) / (product.quantity * UNIT_VALUES[product.unit])) * product.price
     return [...pv, { ...product, ...v, price }]
   }, []) ?? [])
   const setTools = useToolsStore(store => store.setTools)
@@ -52,12 +39,13 @@ export default function RecipePage ({ params }: {
             setTools({
               type: 'ingredient',
               action: 'create',
-              formData: undefined,
+              defaultValues: undefined,
               manageValues (values) {
                 if ('productId' in values) {
                   addIngredient(recipe.id, values)
                 }
-              }
+              },
+              ingredients
             })
           }} elementType='ingredient' />
         </div>
@@ -68,7 +56,7 @@ export default function RecipePage ({ params }: {
             setTools({
               type: 'ingredient',
               action: 'update',
-              formData: {
+              defaultValues: {
                 productId: product.id,
                 unit: product.unit,
                 quantity: product.quantity
