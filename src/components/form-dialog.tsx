@@ -15,11 +15,11 @@ import {
   SheetHeader,
   SheetTitle
 } from '@/components/ui/sheet'
-import { useToolsStore } from '@/store/tools-store'
+import { useFormStore } from '@/store/form-store'
 import DinamicForm from './dinamic-form'
 
 export default function FormDialog () {
-  const [open, setOpen, action, type, formData] = useToolsStore(store => [store.open, store.setOpen, store.action, store.type, store.formData])
+  const [open, setOpen, action, type] = useFormStore(store => [store.open, store.setOpen, store.action, store.type])
   const [isDesktop, setIsDesktop] = React.useState(false)
 
   React.useEffect(() => {
@@ -57,7 +57,7 @@ export default function FormDialog () {
               {description}
             </DialogDescription>
           </DialogHeader>
-          <DinamicForm type={type} defaultValues={formData} />
+          <DinamicForm />
         </DialogContent>
       </Dialog>
     )
@@ -74,7 +74,7 @@ export default function FormDialog () {
             {description}
           </SheetDescription>
         </SheetHeader>
-        <DinamicForm type={type} defaultValues={formData} />
+        <DinamicForm />
       </SheetContent>
     </Sheet>
   )
