@@ -3,11 +3,11 @@
 import { useProductsStore } from '@/store/products-store'
 import ProductsTable from './products-table'
 import CreationButton from './creation-button'
-import { useToolsStore } from '@/store/tools-store'
+import { useFormStore } from '@/store/form-store'
 
 export default function ProductList () {
   const { products, addProduct, editProduct, removeProduct } = useProductsStore()
-  const setTools = useToolsStore(store => store.setTools)
+  const setTools = useFormStore(store => store.setTools)
 
   return (
     <section className='space-y-4'>
@@ -22,7 +22,7 @@ export default function ProductList () {
                 addProduct({ ...values })
               }
             },
-            formData: undefined
+            defaultValues: undefined
           })
         }} elementType='product' />
       </div>
@@ -37,7 +37,7 @@ export default function ProductList () {
                 editProduct(product.id, values)
               }
             },
-            formData: product
+            defaultValues: product
           })
         }}
         removeProduct={id => { removeProduct(id) }}
