@@ -4,13 +4,13 @@ import { Button } from './ui/button'
 import { MoreHorizontalIcon, EditIcon, Trash2 } from 'lucide-react'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { useRecipesStore } from '@/store/recipes-store'
-import { useToolsStore } from '@/store/tools-store'
+import { useFormStore } from '@/store/form-store'
 
 export default function RecipeCard ({ recipe }: {
   recipe: Recipe
 }) {
   const [editRecipe, removeRecipe] = useRecipesStore(store => [store.editRecipe, store.removeRecipe])
-  const setTools = useToolsStore(store => store.setTools)
+  const setTools = useFormStore(store => store.setTools)
 
   return (
     <li className='flex items-center border-2 border-border rounded-lg'>
@@ -33,7 +33,7 @@ export default function RecipeCard ({ recipe }: {
             setTools({
               type: 'product',
               action: 'update',
-              formData: recipe,
+              defaultValues: recipe,
               manageValues (values) {
                 if ('name' in values) {
                   editRecipe(recipe.id, values)

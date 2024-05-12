@@ -21,7 +21,7 @@ interface FormStore {
   ingredients?: Product[]
 }
 
-export const useToolsStore = create<FormStore>()(set => ({
+export const useFormStore = create<FormStore>()(set => ({
   open: false,
   type: 'recipe',
   action: 'create',
