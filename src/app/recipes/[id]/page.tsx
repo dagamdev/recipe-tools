@@ -1,12 +1,12 @@
 'use client'
 
 import CreationButton from '@/components/creation-button'
-import ProductsTable from '@/components/products-table'
 import { useProductsStore } from '@/store/products-store'
 import { useRecipesStore } from '@/store/recipes-store'
 import { useFormStore } from '@/store/form-store'
 import type { Product } from '@/types'
 import { UNIT_TYPES, UNIT_VALUES } from '@/utils/constants'
+import ProductCard from '@/components/product'
 
 export default function RecipePage ({ params }: {
   params: { id: string }
@@ -50,8 +50,8 @@ export default function RecipePage ({ params }: {
           }} elementType='ingredient' />
         </div>
 
-        {ingredients.length > 0 && <ProductsTable
-          products={ingredients}
+        {ingredients.length > 0 && ingredients.map(i => <ProductCard key={i.id}
+          product={i}
           editProduct={(product) => {
             setTools({
               type: 'ingredient',
@@ -71,7 +71,7 @@ export default function RecipePage ({ params }: {
           removeProduct={(productId) => {
             removeIngredient(recipe.id, productId)
           }}
-        />}
+        />)}
       </section>
 
       {ingredients.length > 0 && <p className='text-center text-lg'>Total cost: <strong>${totalCost.toFixed(2)}</strong></p>}
