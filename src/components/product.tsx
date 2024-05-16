@@ -9,10 +9,10 @@ export default function ProductCard ({ product, editProduct, removeProduct }: {
   removeProduct: (productId: string) => void
 }) {
   return (
-    <li className='flex justify-between items-center gap-x-4'>
-      <div className='flex justify-between max-w-xl w-full'>
-        <p>{product.quantity}{product.unit} {product.name}</p>
-        <span>${product.price}</span>
+    <li className='flex justify-between items-center gap-x-10'>
+      <div className='flex justify-between w-full'>
+        <p>{product.quantity}{product.unit} - <strong>{product.name}</strong></p>
+        <strong>${product.price}</strong>
       </div>
 
       <DropdownMenu>
