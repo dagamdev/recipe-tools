@@ -27,23 +27,25 @@ export default function ProductList () {
         }} elementType='product' />
       </div>
 
-      <ul className='flex flex-col gap-y-2'>
-        {products.length > 0 && products.map(p => <ProductCard key={p.id} product={p}
-          editProduct={product => {
-            setTools({
-              type: 'product',
-              action: 'update',
-              manageValues (values) {
-                if ('unit' in values && 'name' in values) {
-                  editProduct(product.id, values)
-                }
-              },
-              defaultValues: product
-            })
-          }}
-          removeProduct={id => { removeProduct(id) }}
-        />)}
-      </ul>
+      <div className='flex justify-center'>
+        <ul className='flex flex-col gap-y-2'>
+          {products.length > 0 && products.map(p => <ProductCard key={p.id} product={p}
+            editProduct={product => {
+              setTools({
+                type: 'product',
+                action: 'update',
+                manageValues (values) {
+                  if ('unit' in values && 'name' in values) {
+                    editProduct(product.id, values)
+                  }
+                },
+                defaultValues: product
+              })
+            }}
+            removeProduct={id => { removeProduct(id) }}
+          />)}
+        </ul>
+      </div>
     </section>
   )
 }
