@@ -1,9 +1,9 @@
 'use client'
 
 import { useProductsStore } from '@/store/products-store'
-import ProductsTable from './products-table'
 import CreationButton from './creation-button'
 import { useFormStore } from '@/store/form-store'
+import ProductCard from './product'
 
 export default function ProductList () {
   const { products, addProduct, editProduct, removeProduct } = useProductsStore()
@@ -27,22 +27,23 @@ export default function ProductList () {
         }} elementType='product' />
       </div>
 
-      {products.length > 0 && <ProductsTable products={products}
-        editProduct={product => {
-          setTools({
-            type: 'product',
-            action: 'update',
-            manageValues (values) {
-              if ('unit' in values && 'name' in values) {
-                editProduct(product.id, values)
-              }
-            },
-            defaultValues: product
-          })
-        }}
-        removeProduct={id => { removeProduct(id) }}
-        caption='A list of reference products for recipe ingredients.'
-      />}
+      <ul className='flex flex-col gap-y-2'>
+        {products.length > 0 && products.map(p => <ProductCard key={p.id} product={p}
+          editProduct={product => {
+            setTools({
+              type: 'product',
+              action: 'update',
+              manageValues (values) {
+                if ('unit' in values && 'name' in values) {
+                  editProduct(product.id, values)
+                }
+              },
+              defaultValues: product
+            })
+          }}
+          removeProduct={id => { removeProduct(id) }}
+        />)}
+      </ul>
     </section>
   )
 }
