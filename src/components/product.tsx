@@ -10,9 +10,8 @@ export default function ProductCard ({ product, editProduct, removeProduct }: {
 }) {
   return (
     <li className='flex justify-between items-center gap-x-16'>
-      <div className='w-full flex justify-between gap-x-8'>
-        {/* <p>{product.quantity}{product.unit} - <strong>{product.name}</strong></p> */}
-        <p><strong>{product.quantity}{product.unit}</strong> - {product.name}</p>
+      <div className='flex flex-1 justify-between gap-x-8'>
+        <p className='inline-block'><strong>{product.quantity}{product.unit}</strong> - {product.name}</p>
         <strong>${product.price}</strong>
       </div>
 
