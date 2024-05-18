@@ -10,7 +10,7 @@ export default function ProductCard ({ product, editProduct, removeProduct }: {
 }) {
   return (
     <li className='flex justify-between items-center gap-x-16'>
-      <div className='flex flex-1 justify-between gap-x-8'>
+      <div className='flex flex-1 justify-between gap-x-10'>
         <p className='inline-block'><strong>{product.quantity}{product.unit}</strong> - {product.name}</p>
         <strong>${product.price}</strong>
       </div>
