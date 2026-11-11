@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import Link from 'next/link'
 import { AlertIcon, BasketIcon, BookIcon, LayersIcon, TrendUpIcon } from '@/components/icons'
 import { ThemeSwitcher } from '@/components/theme-switcher'
+import { getThemePreference } from '@/lib/theme-server'
 
 export const metadata: Metadata = {
   title: { absolute: 'Escandallo · Costeo de recetas' },
@@ -63,7 +64,9 @@ const previewItems = [
   { name: 'Huevo', detail: '4 pz', cost: '$12.67', share: 12 }
 ]
 
-export default function LandingPage () {
+export default async function LandingPage () {
+  const theme = await getThemePreference()
+
   return (
     <div className='min-h-dvh overflow-x-clip'>
       <header className='sticky top-0 z-20 border-b border-line/60 bg-bg/85 backdrop-blur'>
@@ -193,7 +196,7 @@ export default function LandingPage () {
       <footer className='border-t border-line'>
         <div className='mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-5 py-8 text-center text-sm text-muted sm:flex-row sm:text-left'>
           <span className='flex items-center gap-2'><Logo size={20} /> Escandallo</span>
-          <ThemeSwitcher className='w-full max-w-xs sm:order-last sm:w-auto' />
+          <ThemeSwitcher initial={theme} className='w-full max-w-xs sm:order-last sm:w-auto' />
           <span>
             Desarrollada por{' '}
             <a href='https://dagam.dev' target='_blank' rel='noopener' className='font-semibold text-ink underline decoration-line underline-offset-4 transition hover:text-brand hover:decoration-brand'>

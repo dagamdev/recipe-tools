@@ -1,9 +1,8 @@
 import type { Metadata, Viewport } from 'next'
 import { Bricolage_Grotesque, Inter } from 'next/font/google'
-import Script from 'next/script'
 import { RegisterServiceWorker } from '@/components/register-sw'
-import { ThemeSync } from '@/components/theme-switcher'
-import { themeInitScript } from '@/lib/theme'
+import { THEME_COLORS } from '@/lib/theme'
+import { getThemePreference } from '@/lib/theme-server'
 import './globals.css'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
@@ -22,26 +21,31 @@ export const metadata: Metadata = {
   formatDetection: { telephone: false }
 }
 
-export const viewport: Viewport = {
-  width: 'device-width',
-  initialScale: 1,
-  viewportFit: 'cover',
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: '#F5F6F2' },
-    { media: '(prefers-color-scheme: dark)', color: '#101512' }
-  ]
+// El color de la barra del navegador sigue la preferencia guardada, o al sistema
+export async function generateViewport (): Promise<Viewport> {
+  const theme = await getThemePreference()
+  return {
+    width: 'device-width',
+    initialScale: 1,
+    viewportFit: 'cover',
+    themeColor: theme === 'system'
+      ? [
+          { media: '(prefers-color-scheme: light)', color: THEME_COLORS.light },
+          { media: '(prefers-color-scheme: dark)', color: THEME_COLORS.dark }
+        ]
+      : THEME_COLORS[theme]
+  }
 }
 
-export default function RootLayout ({ children }: { children: React.ReactNode }) {
+export default async function RootLayout ({ children }: { children: React.ReactNode }) {
+  // El tema elegido llega en una cookie: el HTML sale ya con data-theme, sin script ni parpadeo
+  const theme = await getThemePreference()
+
   return (
-    // suppressHydrationWarning: el script de tema agrega data-theme antes de hidratar
-    <html lang='es' className={`${inter.variable} ${bricolage.variable}`} suppressHydrationWarning>
+    <html lang='es' className={`${inter.variable} ${bricolage.variable}`} data-theme={theme === 'system' ? undefined : theme}>
       <body className='min-h-dvh antialiased'>
-        {/* Aplica el tema guardado antes de hidratar, sin parpadeo */}
-        <Script id='theme-init' strategy='beforeInteractive'>{themeInitScript}</Script>
         {children}
         <RegisterServiceWorker />
-        <ThemeSync />
       </body>
     </html>
   )

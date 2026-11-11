@@ -4,6 +4,7 @@ import { getSession } from '@/lib/auth'
 import { loadWorkspace } from '@/lib/data'
 import { ThemeSwitcher } from '@/components/theme-switcher'
 import { pluralize } from '@/lib/format'
+import { getThemePreference } from '@/lib/theme-server'
 import { InstallApp } from './install-app'
 import { SignOutButton } from './sign-out-button'
 
@@ -33,7 +34,7 @@ export default async function AccountPage () {
           <h2 id='theme-title' className='text-sm font-semibold'>Apariencia</h2>
           <p className='text-xs text-muted'>Sistema usa el modo claro u oscuro de tu dispositivo.</p>
         </div>
-        <ThemeSwitcher />
+        <ThemeSwitcher initial={await getThemePreference()} />
       </section>
       <InstallApp />
       <SignOutButton />

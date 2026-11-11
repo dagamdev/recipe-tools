@@ -1,7 +1,7 @@
 'use client'
 
-import { useEffect, useSyncExternalStore } from 'react'
-import { applyTheme, readThemePreference, setThemePreference, subscribeTheme, type ThemePreference } from '@/lib/theme'
+import { useSyncExternalStore } from 'react'
+import { readThemePreference, setThemePreference, subscribeTheme, type ThemePreference } from '@/lib/theme'
 import { cx } from './ui'
 
 const OPTIONS: Array<{ value: ThemePreference, label: string, icon: React.ReactNode }> = [
@@ -22,11 +22,9 @@ const OPTIONS: Array<{ value: ThemePreference, label: string, icon: React.ReactN
   }
 ]
 
-// En el servidor no se conoce la preferencia: se asume 'system' y se corrige al hidratar
-const getServerSnapshot = (): ThemePreference => 'system'
-
-export function ThemeSwitcher ({ className }: { className?: string }) {
-  const preference = useSyncExternalStore(subscribeTheme, readThemePreference, getServerSnapshot)
+// initial viene de la cookie leída en el servidor, así el primer render ya marca la opción correcta
+export function ThemeSwitcher ({ initial, className }: { initial: ThemePreference, className?: string }) {
+  const preference = useSyncExternalStore(subscribeTheme, readThemePreference, () => initial)
 
   return (
     <div role='radiogroup' aria-label='Tema' className={cx('grid grid-cols-3 gap-1 rounded-2xl bg-surface-2 p-1', className)}>
@@ -44,10 +42,4 @@ export function ThemeSwitcher ({ className }: { className?: string }) {
       })}
     </div>
   )
-}
-
-// Sincroniza el color de la barra del navegador con la preferencia guardada al cargar
-export function ThemeSync () {
-  useEffect(() => { applyTheme(readThemePreference()) }, [])
-  return null
 }
