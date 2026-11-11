@@ -6,7 +6,7 @@ import { BasketIcon, BookIcon, UserIcon } from './icons'
 import { cx } from './ui'
 
 const tabs = [
-  { href: '/', label: 'Recetas', Icon: BookIcon, match: (p: string) => p === '/' || p.startsWith('/recetas') },
+  { href: '/recetas', label: 'Recetas', Icon: BookIcon, match: (p: string) => p.startsWith('/recetas') },
   { href: '/insumos', label: 'Insumos', Icon: BasketIcon, match: (p: string) => p.startsWith('/insumos') },
   { href: '/cuenta', label: 'Cuenta', Icon: UserIcon, match: (p: string) => p.startsWith('/cuenta') }
 ]

@@ -87,7 +87,7 @@ export default async function RecipesPage ({ searchParams }: {
             <nav aria-label='Filtrar por categoría' className='-mx-5 flex gap-2 overflow-x-auto px-5 pb-1 [scrollbar-width:none]'>
               {filters.map(f => {
                 const active = cat === f.value
-                const href = f.value === undefined ? '/' : `/?cat=${encodeURIComponent(f.value)}`
+                const href = f.value === undefined ? '/recetas' : `/recetas?cat=${encodeURIComponent(f.value)}`
                 return (
                   <Link key={f.label} href={href} aria-current={active ? 'true' : undefined}
                     className={cx('flex h-9 shrink-0 items-center rounded-full px-3.5 text-[13px] whitespace-nowrap',

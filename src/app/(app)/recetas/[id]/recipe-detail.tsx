@@ -70,7 +70,7 @@ export function RecipeDetail ({ recipe, total, items, sources, categories }: {
   return (
     <>
       <header className='flex items-center justify-between px-3 pt-5 pb-2'>
-        <Link href='/' aria-label='Volver a recetas' className={iconButton}><ChevronLeftIcon /></Link>
+        <Link href='/recetas' aria-label='Volver a recetas' className={iconButton}><ChevronLeftIcon /></Link>
         <span className='text-sm font-medium text-muted'>{recipe.isSubrecipe ? 'Subreceta' : recipe.category ?? 'Receta'}</span>
         <button type='button' aria-label='Editar receta' onClick={() => { setSheet({ type: 'options' }) }} className={iconButton}>
           <PencilIcon size={20} />

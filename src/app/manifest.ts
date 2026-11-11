@@ -7,7 +7,7 @@ export default function manifest (): MetadataRoute.Manifest {
     short_name: 'Escandallo',
     description: 'Calcula el costo de tus recetas a partir de lo que pagas por cada insumo.',
     lang: 'es',
-    start_url: '/',
+    start_url: '/recetas',
     scope: '/',
     display: 'standalone',
     orientation: 'portrait',
@@ -20,7 +20,7 @@ export default function manifest (): MetadataRoute.Manifest {
       { src: '/icons/maskable-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' }
     ],
     shortcuts: [
-      { name: 'Recetas', url: '/', icons: [{ src: '/icons/icon-192.png', sizes: '192x192' }] },
+      { name: 'Recetas', url: '/recetas', icons: [{ src: '/icons/icon-192.png', sizes: '192x192' }] },
       { name: 'Insumos', url: '/insumos', icons: [{ src: '/icons/icon-192.png', sizes: '192x192' }] }
     ]
   }

@@ -70,6 +70,7 @@ Para aplicar migraciones a mano: `DATABASE_URL="<cadena de conexión>" pnpm db:m
 ```
 src/
   app/
+    page.tsx          portada pública (con sesión redirige a /recetas)
     (app)/            pantallas con sesión: recetas, detalle, insumos, cuenta
     login/            entrar con Google
     actions.ts        Server Actions (validación con Zod)

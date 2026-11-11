@@ -6,7 +6,7 @@ import { LoginForm } from './login-form'
 export const metadata: Metadata = { title: 'Entrar' }
 
 export default async function LoginPage () {
-  if (await getSession() !== null) redirect('/')
+  if (await getSession() !== null) redirect('/recetas')
 
   return (
     <main className='mx-auto flex min-h-dvh max-w-md flex-col justify-center gap-8 px-5 py-10'>

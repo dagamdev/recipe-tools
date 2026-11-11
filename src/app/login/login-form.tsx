@@ -11,8 +11,8 @@ export function LoginForm ({ googleConfigured }: { googleConfigured: boolean }) 
   const signIn = async () => {
     setPending(true)
     setError(undefined)
-    // Redirige a Google; al volver, Better Auth crea la sesión y manda a /
-    const { error: authError } = await authClient.signIn.social({ provider: 'google', callbackURL: '/' })
+    // Redirige a Google; al volver, Better Auth crea la sesión y manda a /recetas
+    const { error: authError } = await authClient.signIn.social({ provider: 'google', callbackURL: '/recetas' })
     if (authError !== null) {
       setError('No se pudo conectar con Google. Intenta de nuevo.')
       setPending(false)

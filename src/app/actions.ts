@@ -141,7 +141,7 @@ export async function deleteRecipe (recipeId: string): Promise<ActionState> {
   }
   await db.delete(recipes).where(and(eq(recipes.id, recipeId), eq(recipes.userId, userId)))
   refresh()
-  redirect('/')
+  redirect('/recetas')
 }
 
 // ---------- Ingredientes de una receta ----------
