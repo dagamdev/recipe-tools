@@ -3,13 +3,24 @@
 // aplica las migraciones y luego inicia `next dev` apuntando a él.
 // Así la app usa siempre el mismo driver de Postgres, en local y en producción.
 import { spawn } from 'node:child_process'
-import { existsSync, mkdirSync } from 'node:fs'
+import { existsSync, mkdirSync, readFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import path from 'node:path'
+import { parseEnv } from 'node:util'
 
 const root = process.cwd()
-for (const file of ['.env.local', '.env']) {
-  if (existsSync(path.join(root, file))) process.loadEnvFile(path.join(root, file))
+
+// Solo se lee DATABASE_URL de los archivos .env. El resto lo carga Next por su cuenta,
+// así sus cambios se aplican sin reiniciar (si se copiaran aquí, quedarían fijos).
+function readDatabaseUrl (): string | undefined {
+  if (process.env.DATABASE_URL !== undefined && process.env.DATABASE_URL !== '') return process.env.DATABASE_URL
+  for (const file of ['.env.local', '.env']) {
+    const full = path.join(root, file)
+    if (!existsSync(full)) continue
+    const value = parseEnv(readFileSync(full, 'utf8')).DATABASE_URL
+    if (value !== undefined && value !== '') return value
+  }
+  return undefined
 }
 
 const require = createRequire(import.meta.url)
@@ -17,7 +28,7 @@ const nextBin = require.resolve('next/dist/bin/next')
 const env = { ...process.env }
 let stopDb = async () => {}
 
-if (env.DATABASE_URL === undefined || env.DATABASE_URL === '') {
+if (readDatabaseUrl() === undefined) {
   const { PGlite } = await import('@electric-sql/pglite')
   const { PGLiteSocketServer } = await import('@electric-sql/pglite-socket')
   const { drizzle } = await import('drizzle-orm/pglite')
