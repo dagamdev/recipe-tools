@@ -122,6 +122,9 @@ dialog.sheet {
   width: 100%;
   max-width: 480px;
   max-height: 92dvh;
+  /* Si el contenido no cabe, la hoja hace scroll sin mover la página de atrás */
+  overflow-y: auto;
+  overscroll-behavior: contain;
   padding: 0;
   border: none;
   border-radius: 28px 28px 0 0;

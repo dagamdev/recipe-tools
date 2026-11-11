@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next'
 import { Bricolage_Grotesque, Inter } from 'next/font/google'
+import Script from 'next/script'
 import { RegisterServiceWorker } from '@/components/register-sw'
 import { ThemeSync } from '@/components/theme-switcher'
 import { themeInitScript } from '@/lib/theme'
@@ -35,10 +36,9 @@ export default function RootLayout ({ children }: { children: React.ReactNode })
   return (
     // suppressHydrationWarning: el script de tema agrega data-theme antes de hidratar
     <html lang='es' className={`${inter.variable} ${bricolage.variable}`} suppressHydrationWarning>
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
-      </head>
       <body className='min-h-dvh antialiased'>
+        {/* Aplica el tema guardado antes de hidratar, sin parpadeo */}
+        <Script id='theme-init' strategy='beforeInteractive'>{themeInitScript}</Script>
         {children}
         <RegisterServiceWorker />
         <ThemeSync />

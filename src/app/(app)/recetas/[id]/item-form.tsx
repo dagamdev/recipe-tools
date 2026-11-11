@@ -5,6 +5,7 @@ import { addRecipeItem, deleteRecipeItem, updateRecipeItem, type ActionState } f
 import { applyWaste, compatibleUnits, productItemCost, type Unit } from '@/lib/costing'
 import { formatMoney, formatNumber } from '@/lib/format'
 import { buttonDanger, buttonPrimary, cx, Field, FormError, inputBase } from '@/components/ui'
+import { SourcePicker } from './source-picker'
 import type { ItemView, SourceOption } from './recipe-detail'
 
 // Formulario para agregar o editar un ingrediente, con el costo calculado al momento
@@ -54,30 +55,14 @@ export function ItemForm ({ mode, recipeId, sources, item, onDone }: {
     }
   }
 
-  const productOptions = sources.filter(s => s.kind === 'product')
-  const recipeOptions = sources.filter(s => s.kind === 'recipe')
-
   return (
     <form action={formAction} className='flex flex-col gap-4'>
       {mode === 'add'
         ? (
-          <Field label='Insumo o subreceta' htmlFor='item-source'>
-            <select id='item-source' name='source' required value={sourceKey} onChange={e => { pickSource(e.target.value) }}
-              className={cx(inputBase, 'appearance-none bg-[length:18px] bg-[right_1rem_center] bg-no-repeat pr-10')}
-              style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 24 24%27 fill=%27none%27 stroke=%27%235B655F%27 stroke-width=%272%27 stroke-linecap=%27round%27%3E%3Cpath d=%27m6 9 6 6 6-6%27/%3E%3C/svg%3E")' }}>
-              <option value='' disabled>Elige uno…</option>
-              {productOptions.length > 0 && (
-                <optgroup label='Insumos'>
-                  {productOptions.map(s => <option key={s.key} value={s.key}>{s.name}</option>)}
-                </optgroup>
-              )}
-              {recipeOptions.length > 0 && (
-                <optgroup label='Subrecetas'>
-                  {recipeOptions.map(s => <option key={s.key} value={s.key}>{s.name}</option>)}
-                </optgroup>
-              )}
-            </select>
-          </Field>
+          <>
+            <SourcePicker sources={sources} value={sourceKey} onChange={pickSource} />
+            <input type='hidden' name='source' value={sourceKey} />
+          </>
           )
         : (
           <div className='flex flex-col gap-0.5 rounded-2xl bg-surface-2 px-4 py-3'>
