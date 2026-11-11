@@ -8,27 +8,25 @@ import { nextCookies } from 'better-auth/next-js'
 import { db } from '@/db'
 import { account, session, user, verification } from '@/db/schema'
 
-const googleId = process.env.GOOGLE_CLIENT_ID
-const googleSecret = process.env.GOOGLE_CLIENT_SECRET
+const googleId = process.env.GOOGLE_CLIENT_ID ?? ''
+const googleSecret = process.env.GOOGLE_CLIENT_SECRET ?? ''
+
+// Sin credenciales de Google no hay forma de entrar: la pantalla de login lo indica
+export const isGoogleConfigured = googleId !== '' && googleSecret !== ''
 
 export const auth = betterAuth({
   database: drizzleAdapter(db, {
     provider: 'pg',
     schema: { user, session, account, verification }
   }),
-  emailAndPassword: {
-    enabled: true,
-    minPasswordLength: 8
-  },
-  // Google solo se activa si están sus credenciales
-  socialProviders: googleId !== undefined && googleSecret !== undefined
-    ? { google: { clientId: googleId, clientSecret: googleSecret } }
+  // Solo Google: sin correo y contraseña
+  emailAndPassword: { enabled: false },
+  socialProviders: isGoogleConfigured
+    ? { google: { clientId: googleId, clientSecret: googleSecret, prompt: 'select_account' } }
     : {},
-  // nextCookies permite iniciar sesión desde Server Actions
+  // nextCookies permite que las Server Actions lean y escriban la sesión
   plugins: [nextCookies()]
 })
-
-export const isGoogleEnabled = googleId !== undefined && googleSecret !== undefined
 
 // Sesión actual, cacheada por petición
 export const getSession = cache(async () => {

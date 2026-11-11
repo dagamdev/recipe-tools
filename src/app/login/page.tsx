@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { redirect } from 'next/navigation'
-import { getSession, isGoogleEnabled } from '@/lib/auth'
+import { getSession, isGoogleConfigured } from '@/lib/auth'
 import { LoginForm } from './login-form'
 
 export const metadata: Metadata = { title: 'Entrar' }
@@ -17,7 +17,7 @@ export default async function LoginPage () {
         <h1 className='font-display text-4xl font-bold tracking-tight'>Escandallo</h1>
         <p className='text-base text-muted'>Registra lo que pagas por cada insumo y sabe al centavo cuánto te cuesta cada receta.</p>
       </div>
-      <LoginForm googleEnabled={isGoogleEnabled} />
+      <LoginForm googleConfigured={isGoogleConfigured} />
     </main>
   )
 }
