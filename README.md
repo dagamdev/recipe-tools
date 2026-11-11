@@ -58,11 +58,10 @@ Otros comandos:
    - `BETTER_AUTH_SECRET`: genera una con `openssl rand -base64 32`
    - `BETTER_AUTH_URL`: la URL pública de la app
    - `GOOGLE_CLIENT_ID` y `GOOGLE_CLIENT_SECRET`
-3. Aplica las migraciones una vez (y cada vez que haya nuevas):
+3. Haz push a `main`. Vercel ejecuta `vercel-build`, que aplica las migraciones pendientes y luego compila.
+4. En las credenciales de Google agrega `https://<tu-dominio>/api/auth/callback/google` como URI de redirección.
 
-   ```bash
-   DATABASE_URL="<cadena de conexión>" pnpm db:migrate
-   ```
+Para aplicar migraciones a mano: `DATABASE_URL="<cadena de conexión>" pnpm db:migrate`.
 
 ## Estructura
 
