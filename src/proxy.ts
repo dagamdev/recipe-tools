@@ -10,5 +10,6 @@ export function proxy (request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/((?!login|api/auth|_next|icon.svg|favicon.ico).*)']
+  // Sin sesión también deben cargar el login, la autenticación y los archivos de la PWA
+  matcher: ['/((?!login|api/auth|_next|icon.svg|favicon.ico|manifest.webmanifest|sw.js|offline.html|icons/).*)']
 }

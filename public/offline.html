@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Sin conexión · Escandallo</title>
+  <style>
+    :root { --bg: #F5F6F2; --ink: #17201B; --muted: #5B655F; --brand: #1E5B43; --brand-ink: #FFFFFF; }
+    @media (prefers-color-scheme: dark) {
+      :root { --bg: #101512; --ink: #EDF1EE; --muted: #A3ADA7; --brand: #4FAE85; --brand-ink: #0B1A13; }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100dvh; display: flex; align-items: center; justify-content: center;
+      padding: 24px; background: var(--bg); color: var(--ink);
+      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    }
+    main { max-width: 360px; display: flex; flex-direction: column; gap: 16px; }
+    .logo { width: 56px; height: 56px; border-radius: 16px; background: var(--brand); color: var(--brand-ink); display: flex; align-items: center; justify-content: center; }
+    h1 { margin: 0; font-size: 28px; letter-spacing: -0.02em; }
+    p { margin: 0; color: var(--muted); line-height: 1.5; }
+    button {
+      height: 52px; border: none; border-radius: 16px; background: var(--brand); color: var(--brand-ink);
+      font: 600 16px system-ui, sans-serif; cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="logo" aria-hidden="true">
+      <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 8h12M6 12h9M6 16h12"/></svg>
+    </div>
+    <h1>Sin conexión</h1>
+    <p>Escandallo necesita internet para cargar tus recetas e insumos. Revisa tu conexión e inténtalo de nuevo.</p>
+    <button type="button" onclick="location.reload()">Reintentar</button>
+  </main>
+</body>
+</html>

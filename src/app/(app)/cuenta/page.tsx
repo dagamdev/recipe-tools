@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation'
 import { getSession } from '@/lib/auth'
 import { loadWorkspace } from '@/lib/data'
 import { pluralize } from '@/lib/format'
+import { InstallApp } from './install-app'
 import { SignOutButton } from './sign-out-button'
 
 export const metadata: Metadata = { title: 'Cuenta' }
@@ -26,6 +27,7 @@ export default async function AccountPage () {
         <div className='rounded-[18px] border border-line bg-surface px-4 py-3.5 text-sm'>{pluralize(ws.recipes.length, 'receta', 'recetas')}</div>
         <div className='rounded-[18px] border border-line bg-surface px-4 py-3.5 text-sm'>{pluralize(ws.products.length, 'insumo', 'insumos')}</div>
       </section>
+      <InstallApp />
       <SignOutButton />
     </main>
   )

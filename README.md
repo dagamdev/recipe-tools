@@ -8,6 +8,7 @@ Calcula el costo real de tus recetas a partir de lo que pagas por cada insumo.
 - **Merma** por ingrediente: para usar 250 g con 15% de merma se cobran 294 g.
 - **Avisos** cuando sube un insumo y a cuántas recetas afecta.
 - Inicio de sesión con Google: cada quien ve solo sus datos.
+- **PWA**: se instala en el celular (Android: botón en Cuenta; iPhone: Compartir → Agregar a inicio) y muestra una pantalla propia sin conexión.
 
 > La versión anterior (solo navegador, con `localStorage`) está en la rama `legacy-v1`.
 
@@ -40,6 +41,7 @@ Otros comandos:
 | `pnpm lint` | ESLint |
 | `pnpm db:generate` | Genera una migración tras cambiar `src/db/schema.ts` |
 | `pnpm db:migrate` | Aplica las migraciones a `DATABASE_URL` |
+| `pnpm icons` | Regenera los iconos de la PWA en `public/icons/` |
 
 ## Credenciales de Google
 
@@ -77,5 +79,6 @@ src/
     costing.ts        cálculo de costos, unidades, merma y subrecetas
     data.ts           carga de datos del usuario
 scripts/dev.ts        arranque local con PGlite
+public/sw.js          service worker (red primero; caché solo para estáticos)
 drizzle/              migraciones SQL
 ```
