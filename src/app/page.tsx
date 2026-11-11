@@ -192,7 +192,12 @@ export default function LandingPage () {
       <footer className='border-t border-line'>
         <div className='mx-auto flex max-w-6xl flex-col items-center justify-between gap-3 px-5 py-8 text-center text-sm text-muted sm:flex-row sm:text-left'>
           <span className='flex items-center gap-2'><Logo size={20} /> Escandallo</span>
-          <span>Costeo de recetas para cocinas, reposterías y negocios de comida</span>
+          <span>
+            Desarrollada por{' '}
+            <a href='https://dagam.dev' target='_blank' rel='noopener' className='font-semibold text-ink underline decoration-line underline-offset-4 transition hover:text-brand hover:decoration-brand'>
+              Dagamdev
+            </a>
+          </span>
         </div>
       </footer>
     </div>
