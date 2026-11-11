@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
-/* Colores de la app: claro por defecto, oscuro según el sistema */
+/* Colores de la app.
+   Por defecto siguen al sistema; data-theme="light" o "dark" en <html> fija uno a mano. */
 :root {
   --bg: #F5F6F2;
   --surface: #FFFFFF;
@@ -20,10 +21,11 @@
   --bad-soft: #FBE3E0;
   --bad-soft-ink: #A3261B;
   --scrim: rgb(23 32 27 / 0.45);
+  color-scheme: light;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     --bg: #101512;
     --surface: #18201B;
     --surface-2: #222B25;
@@ -42,7 +44,30 @@
     --bad-soft: #3D1E1B;
     --bad-soft-ink: #F6B3AA;
     --scrim: rgb(0 0 0 / 0.6);
+    color-scheme: dark;
   }
+}
+
+:root[data-theme="dark"] {
+  --bg: #101512;
+  --surface: #18201B;
+  --surface-2: #222B25;
+  --ink: #EDF1EE;
+  --muted: #A3ADA7;
+  --line: #2C3630;
+  --line-soft: #242D27;
+  --brand: #4FAE85;
+  --brand-ink: #0B1A13;
+  --brand-soft: #1C3328;
+  --brand-soft-ink: #8FD4B4;
+  --warn: #F0A24B;
+  --warn-soft: #3A2A14;
+  --warn-soft-ink: #F6C78C;
+  --bad: #F08A7E;
+  --bad-soft: #3D1E1B;
+  --bad-soft-ink: #F6B3AA;
+  --scrim: rgb(0 0 0 / 0.6);
+  color-scheme: dark;
 }
 
 @theme inline {
@@ -68,7 +93,6 @@
 }
 
 html {
-  color-scheme: light dark;
   -webkit-tap-highlight-color: transparent;
 }
 

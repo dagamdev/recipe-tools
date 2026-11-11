@@ -4,11 +4,13 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Sin conexión · Escandallo</title>
+  <script>(function(){try{var t=localStorage.getItem('escandallo-theme');if(t==='light'||t==='dark')document.documentElement.dataset.theme=t}catch(e){}})()</script>
   <style>
     :root { --bg: #F5F6F2; --ink: #17201B; --muted: #5B655F; --brand: #1E5B43; --brand-ink: #FFFFFF; }
     @media (prefers-color-scheme: dark) {
-      :root { --bg: #101512; --ink: #EDF1EE; --muted: #A3ADA7; --brand: #4FAE85; --brand-ink: #0B1A13; }
+      :root:not([data-theme="light"]) { --bg: #101512; --ink: #EDF1EE; --muted: #A3ADA7; --brand: #4FAE85; --brand-ink: #0B1A13; }
     }
+    :root[data-theme="dark"] { --bg: #101512; --ink: #EDF1EE; --muted: #A3ADA7; --brand: #4FAE85; --brand-ink: #0B1A13; }
     * { box-sizing: border-box; }
     body {
       margin: 0; min-height: 100dvh; display: flex; align-items: center; justify-content: center;

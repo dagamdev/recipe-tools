@@ -3,7 +3,7 @@
 // - Archivos estáticos de Next, iconos y fuentes: caché primero (llevan hash o no cambian)
 // - Nunca guarda respuestas de /api ni peticiones que no sean GET
 
-const VERSION = 'v1'
+const VERSION = 'v2'
 const STATIC_CACHE = `escandallo-static-${VERSION}`
 const OFFLINE_URL = '/offline.html'
 const PRECACHE = [OFFLINE_URL, '/icons/icon-192.png', '/icons/icon-512.png']

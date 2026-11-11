@@ -1,6 +1,8 @@
 import type { Metadata, Viewport } from 'next'
 import { Bricolage_Grotesque, Inter } from 'next/font/google'
 import { RegisterServiceWorker } from '@/components/register-sw'
+import { ThemeSync } from '@/components/theme-switcher'
+import { themeInitScript } from '@/lib/theme'
 import './globals.css'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' })
@@ -31,10 +33,15 @@ export const viewport: Viewport = {
 
 export default function RootLayout ({ children }: { children: React.ReactNode }) {
   return (
-    <html lang='es' className={`${inter.variable} ${bricolage.variable}`}>
+    // suppressHydrationWarning: el script de tema agrega data-theme antes de hidratar
+    <html lang='es' className={`${inter.variable} ${bricolage.variable}`} suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
       <body className='min-h-dvh antialiased'>
         {children}
         <RegisterServiceWorker />
+        <ThemeSync />
       </body>
     </html>
   )
