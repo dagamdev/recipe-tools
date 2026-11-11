@@ -34,3 +34,12 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# base de datos local (PGlite)
+/.data/
+
+# variables de entorno
+.env
+
+# configuración local del editor
+/.claude/
